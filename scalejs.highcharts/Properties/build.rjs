@@ -1,0 +1,10 @@
+﻿({
+	mainConfigFile: '../bootstrapper.js',
+	name: 'scalejs.highcharts',
+    exclude: [
+        'scalejs!core',
+		'knockout',
+		'knockout.mapping',
+		'highcharts'
+    ]
+})

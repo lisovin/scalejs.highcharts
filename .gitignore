@@ -1,0 +1,10 @@
+
+/packages
+/TestResults
+/scalejs.highcharts.v11.suo
+/scalejs.highcharts/build
+/scalejs.highcharts/obj
+/scalejs.highcharts/scalejs.highcharts.csproj.user
+/scalejs.highcharts.test/build
+/scalejs.highcharts.test/obj
+/.nuget/nuget.exe
