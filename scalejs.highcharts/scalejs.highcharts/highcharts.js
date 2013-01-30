@@ -11,7 +11,9 @@ define([
     'use strict';
 
     // aliases
-    var unwrap = ko.utils.unwrapObservable,
+    var has = core.object.has,
+        is = core.type.is,
+        unwrap = ko.utils.unwrapObservable,
         isObservable = ko.isObservable,
         //compare = ko.utils.compareArrays,
         arrayMap = ko.utils.arrayMap,
@@ -84,6 +86,7 @@ define([
         subs = subscribeSeries(series, chart);
 
         return {
+            chart: chart,
             dispose: function () {
                 forEach(subs, function (s) {
                     s.dispose();
@@ -100,12 +103,24 @@ define([
         allBindingsAccessor
     ) {
         var b = allBindingsAccessor(),
-            disposable = createChart(b.highcharts, element);
+            chart = createChart(b.highcharts, element);
+
+        if (has(b.highcharts, 'xAxis', 'categories') && isObservable(b.highcharts.xAxis.categories)) {
+            b.highcharts.xAxis.categories.subscribe(function (newCategories) {
+                if (has(chart, 'chart', 'xAxis', 'length') && chart.chart.xAxis.length > 0) {
+                    chart.chart.xAxis[0].setCategories(newCategories);
+                }
+            });
+        }
 
         if (isObservable(b.highcharts.series)) {
             b.highcharts.series.subscribe(function (newSeries) {
-                disposable.dispose();
-                disposable = createChart(merge(b.highcharts, { series: newSeries }), element);
+                chart.dispose();
+                // series should be an array, if it's not then assume it's a single-series array
+                if (!is(newSeries, 'array')) {
+                    newSeries = [newSeries];
+                }
+                chart = createChart(merge(b.highcharts, { series: newSeries }), element);
             });
         }
 

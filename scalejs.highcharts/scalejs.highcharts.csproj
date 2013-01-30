@@ -10,7 +10,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="Properties\build.rjs" />
-    <Content Include="Properties\scalejs.highcharts.nuspec" />
+    <Content Include="Properties\scalejs.highcharts.nuspec">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="scalejs.highcharts.js" />
     <Content Include="scalejs.highcharts\highcharts.js" />
     <Content Include="Scripts\highcharts.js" />
